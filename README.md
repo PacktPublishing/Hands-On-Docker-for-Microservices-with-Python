@@ -1,2 +1,1 @@
-# Hands-On-Docker-for-Microservices-with-Python
-Hands-On Docker for Microservices with Python, published by Packt
+# The code for this repository is under development :construction_worker:
