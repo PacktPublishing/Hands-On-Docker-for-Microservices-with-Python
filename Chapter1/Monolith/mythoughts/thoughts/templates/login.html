@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">  <p></p> </div>
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2"></div>
+    <div class="col-md-auto">
+      <div class="card text-white bg-dark mb-3" style="max-width: 50rem;">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <h4 class="card-title">Login</h4>
+          <p class="card-text"> Please enter your login and password to access the system.
+            <form>
+              <fieldset>
+                <legend>Legend</legend>
+                <div class="form-group">
+                  <label for="InputUserName1">Username</label>
+                  <input type="email" class="form-control" id="inputUsername" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                  <label for="InputPassword1">Password</label>
+                  <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </fieldset>
+            </form>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col col-lg-2"></div>
+  </div>
+</div>
+
+{% endblock %}
