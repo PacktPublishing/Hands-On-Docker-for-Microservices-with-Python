@@ -7,7 +7,7 @@
   <div class="card-body">
       <form method="POST" action="{% url 'new-thought' %}" >
         {% csrf_token %}
-        <textarea class="form-control" placeholder="Any thoughts?" maxlength="250" name="text"></textarea>
+        <textarea class="form-control" placeholder="Any thoughts, {{username}}?" maxlength="250" name="text"></textarea>
         <input type="submit" class="btn btn-primary btn-lg btn-block" value="Share">
     </form>
   </div>
