@@ -1,0 +1,10 @@
+[
+  {
+    "model": "thoughts.usermodel",
+    "pk": 1,
+    "fields": {
+      "username": "bruce",
+      "password_hash": "placeholder"
+    }
+  }
+]

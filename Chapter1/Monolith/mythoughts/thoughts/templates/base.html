@@ -15,7 +15,7 @@
   <body>
     <div class="bs-component">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <a class="navbar-brand" href="#">MyThouthts</a>
+            <a class="navbar-brand" href="{% url 'list-thoughts' %}">MyThoughts</a>
           <ul class="navbar-nav mr-auto"></ul>
           <form class="form-inline my-2 my-lg-0">
               <input class="form-control mr-sm-2 w-75-xs" type="text" placeholder="Search">
@@ -25,7 +25,15 @@
         </nav>
     </div>
 
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+      <div class="row">  <p></p> </div>
+      <div class="row justify-content-md-center">
+      <div class="col col-lg-2"></div>
+      <div class="col-md-auto">
+      {% block content %}
+      {% endblock %}
+      </div>
+      <div class="col col-lg-2"></div>
+    </div>
   </body>
 </html>
