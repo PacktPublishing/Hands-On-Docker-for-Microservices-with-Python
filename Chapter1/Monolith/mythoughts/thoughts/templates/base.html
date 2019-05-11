@@ -19,15 +19,15 @@
           <ul class="navbar-nav mr-auto">
             {% if username %}
             <li class="nav-item active">
-                <a class="nav-link" href="#">{{username}}</a>
+                <a class="nav-link" href="{% url 'list-thoughts' %}">{{username}}</a>
             </li> 
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'logout' %}">(logout)</a>
             </li> 
             {% endif %}
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2 w-75-xs" type="text" placeholder="Search">
+          <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+              <input class="form-control mr-sm-2 w-75-xs" type="text" name="search" placeholder="Search">
               <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
           </form> 
         </nav>
