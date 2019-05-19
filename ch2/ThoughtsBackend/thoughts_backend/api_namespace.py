@@ -1,16 +1,28 @@
 import http.client
 from datetime import datetime
 from flask_restplus import Namespace, Resource, fields
+from thoughts_backend import config
 from thoughts_backend.models import ThoughtModel
+from thoughts_backend.token_validation import validate_token_header
 from thoughts_backend.db import db
+from flask import abort
 
 api_namespace = Namespace('api', description='API operations')
 
 
+def authentication_header_parser(value):
+    username = validate_token_header(value, config.PUBLIC_KEY)
+    if username is None:
+        abort(401)
+    return username
+
+
 # Input and output formats for Thought
 thought_parser = api_namespace.parser()
-thought_parser.add_argument('username', type=str, required=True,
-                            help='User creating the thought')
+thought_parser.add_argument('Authorization', location='headers',
+                            required=True,
+                            type=str,
+                            help='Bearer Access Token')
 thought_parser.add_argument('text', type=str, required=True,
                             help='Text of the thought')
 
@@ -35,15 +47,16 @@ class ThoughtListCreate(Resource):
         thoughts = ThoughtModel.query.order_by('id').all()
         return thoughts
 
-    @api_namespace.doc('create_thoughts')
+    @api_namespace.doc('create_thought')
     @api_namespace.expect(thought_parser)
     def post(self):
         '''
         Create a new thought
         '''
         args = thought_parser.parse_args()
+        username = authentication_header_parser(args['Authorization'])
 
-        new_thought = ThoughtModel(username=args['username'],
+        new_thought = ThoughtModel(username=username,
                                    text=args['text'],
                                    timestamp=datetime.utcnow())
         db.session.add(new_thought)

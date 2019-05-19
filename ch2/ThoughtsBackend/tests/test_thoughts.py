@@ -7,6 +7,8 @@ Use the thought_fixture to have data to retrieve, it generates three thoughts
 from unittest.mock import ANY
 import http.client
 from freezegun import freeze_time
+from .test_config import PRIVATE_KEY
+from thoughts_backend import token_validation
 from faker import Faker
 fake = Faker()
 
@@ -17,14 +19,20 @@ def test_create_thought(client):
         'username': fake.name(),
         'text': fake.text(240),
     }
-    response = client.post('/api/thoughts/', data=new_thought)
+    header = token_validation.generate_token_header(fake.name(),
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+    response = client.post('/api/thoughts/', data=new_thought,
+                           headers=headers)
     result = response.json
 
     assert http.client.CREATED == response.status_code
 
     expected = {
         'id': ANY,
-        'username': new_thought['username'],
+        'username': ANY,
         'text': new_thought['text'],
         'timestamp': '2019-05-07T13:47:34',
     }

@@ -1,6 +1,8 @@
 import pytest
 import http.client
 from thoughts_backend.app import create_app
+from .test_config import PRIVATE_KEY
+from thoughts_backend import token_validation
 from faker import Faker
 fake = Faker()
 
@@ -25,10 +27,15 @@ def thought_fixture(client):
     thought_ids = []
     for _ in range(3):
         thought = {
-            'username': fake.name(),
             'text': fake.text(240),
         }
-        response = client.post('/api/thoughts/', data=thought)
+        header = token_validation.generate_token_header(fake.name(),
+                                                        PRIVATE_KEY)
+        headers = {
+            'Authorization': header,
+        }
+        response = client.post('/api/thoughts/', data=thought,
+                               headers=headers)
         assert http.client.CREATED == response.status_code
         result = response.json
         thought_ids.append(result['id'])
