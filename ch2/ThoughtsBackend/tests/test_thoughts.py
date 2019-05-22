@@ -109,9 +109,42 @@ def test_list_thoughts(client, thought_fixture):
         previous_id = thought['id']
 
 
+def test_list_thoughts_search(client, thought_fixture):
+    username = fake.name()
+    new_thought = {
+        'username': username,
+        'text': 'A tale about a Platypus'
+    }
+    header = token_validation.generate_token_header(username,
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+    response = client.post('/api/me/thoughts/', data=new_thought,
+                           headers=headers)
+    assert http.client.CREATED == response.status_code
+
+    response = client.get('/api/thoughts/?search=platypus')
+    result = response.json
+
+    assert http.client.OK == response.status_code
+    assert len(result) > 0
+
+    # Check that the returned values contain "something"
+    for thought in result:
+        expected = {
+            'text': ANY,
+            'username': username,
+            'id': ANY,
+            'timestamp': ANY,
+        }
+        assert expected == thought
+        assert 'platypus' in thought['text'].lower()
+
+
 def test_get_thought(client, thought_fixture):
     thought_id = thought_fixture[0]
-    response = client.get(f'/api/thoughts/{thought_id}')
+    response = client.get(f'/api/thoughts/{thought_id}/')
     result = response.json
 
     assert http.client.OK == response.status_code
@@ -123,6 +156,6 @@ def test_get_thought(client, thought_fixture):
 
 def test_get_non_existing_thought(client, thought_fixture):
     thought_id = 123456
-    response = client.get(f'/api/thoughts/{thought_id}')
+    response = client.get(f'/api/thoughts/{thought_id}/')
 
     assert http.client.NOT_FOUND == response.status_code

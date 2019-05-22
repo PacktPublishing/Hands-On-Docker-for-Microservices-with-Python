@@ -78,20 +78,35 @@ class MeThoughtListCreate(Resource):
         return result, http.client.CREATED
 
 
+search_parser = api_namespace.parser()
+search_parser.add_argument('search', type=str, required=False,
+                            help='Search in the text of the thoughts')
+
+
 @api_namespace.route('/thoughts/')
 class ThoughtList(Resource):
 
     @api_namespace.doc('list_thoughts')
     @api_namespace.marshal_with(thought_model)
+    @api_namespace.expect(search_parser)
     def get(self):
         '''
         Retrieves all the thoughts
         '''
-        thoughts = ThoughtModel.query.order_by('id').all()
+        args = search_parser.parse_args()
+        search_param = args['search']
+        query = ThoughtModel.query
+        if search_param:
+            query = (query.filter(ThoughtModel.text.contains(search_param)))
+
+        query = query.order_by('id')
+        thoughts = query.all()
+        print(thoughts)
+
         return thoughts
 
 
-@api_namespace.route('/thoughts/<int:thought_id>')
+@api_namespace.route('/thoughts/<int:thought_id>/')
 class ThoughtsRetrieve(Resource):
 
     @api_namespace.doc('retrieve_thought')

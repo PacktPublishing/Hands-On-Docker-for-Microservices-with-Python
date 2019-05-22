@@ -41,3 +41,12 @@ def thought_fixture(client):
         thought_ids.append(result['id'])
 
     yield thought_ids
+
+    # Clean up all thoughts
+    response = client.get('/api/thoughts/')
+    thoughts = response.json
+    for thought in thoughts:
+        thought_id = thought['id']
+        url = f'/admin/thoughts/{thought_id}/'
+        response = client.delete(url)
+        assert http.client.NO_CONTENT == response.status_code
