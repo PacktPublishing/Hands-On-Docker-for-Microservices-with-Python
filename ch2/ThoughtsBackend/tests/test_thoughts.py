@@ -14,7 +14,7 @@ fake = Faker()
 
 
 @freeze_time('2019-05-07 13:47:34')
-def test_create_thought(client):
+def test_create_me_thought(client):
     new_thought = {
         'username': fake.name(),
         'text': fake.text(240),
@@ -24,7 +24,7 @@ def test_create_thought(client):
     headers = {
         'Authorization': header,
     }
-    response = client.post('/api/thoughts/', data=new_thought,
+    response = client.post('/api/me/thoughts/', data=new_thought,
                            headers=headers)
     result = response.json
 
@@ -37,6 +37,55 @@ def test_create_thought(client):
         'timestamp': '2019-05-07T13:47:34',
     }
     assert result == expected
+
+
+def test_create_me_unauthorized(client):
+    new_thought = {
+        'username': fake.name(),
+        'text': fake.text(240),
+    }
+    response = client.post('/api/me/thoughts/', data=new_thought)
+    assert http.client.UNAUTHORIZED == response.status_code
+
+
+def test_list_me_thoughts(client, thought_fixture):
+    username = fake.name()
+    text = fake.text(240)
+
+    # Create a new thought
+    new_thought = {
+        'text': text,
+    }
+    header = token_validation.generate_token_header(username,
+                                                    PRIVATE_KEY)
+    headers = {
+        'Authorization': header,
+    }
+    response = client.post('/api/me/thoughts/', data=new_thought,
+                           headers=headers)
+    result = response.json
+
+    assert http.client.CREATED == response.status_code
+
+    # Get the thoughts of the user
+    response = client.get('/api/me/thoughts/', headers=headers)
+    results = response.json
+
+    assert http.client.OK == response.status_code
+    assert len(results) == 1
+    result = results[0]
+    expected_result = {
+        'id': ANY,
+        'username': username,
+        'text': text,
+        'timestamp': ANY,
+    }
+    assert result == expected_result
+
+
+def test_list_me_unauthorized(client):
+    response = client.get('/api/me/thoughts/')
+    assert http.client.UNAUTHORIZED == response.status_code
 
 
 def test_list_thoughts(client, thought_fixture):

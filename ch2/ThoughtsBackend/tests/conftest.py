@@ -34,15 +34,10 @@ def thought_fixture(client):
         headers = {
             'Authorization': header,
         }
-        response = client.post('/api/thoughts/', data=thought,
+        response = client.post('/api/me/thoughts/', data=thought,
                                headers=headers)
         assert http.client.CREATED == response.status_code
         result = response.json
         thought_ids.append(result['id'])
 
     yield thought_ids
-
-    # Clean up thoughts
-    for thought_id in thought_ids:
-        url = f'/api/thought/{thought_id}'
-        client.delete(url)

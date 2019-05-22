@@ -35,6 +35,10 @@ def validate_token_header(header, public_key):
     If correct, it return the username, if not, it
     returns None
     '''
+    if not header:
+        logger.info('No header')
+        return None
+
     # Retrieve the Bearer token
     parse_result = parse('Bearer {}', header)
     if not parse_result:

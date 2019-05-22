@@ -20,11 +20,15 @@ def authentication_header_parser(value):
 # Input and output formats for Thought
 thought_parser = api_namespace.parser()
 thought_parser.add_argument('Authorization', location='headers',
-                            required=True,
                             type=str,
                             help='Bearer Access Token')
 thought_parser.add_argument('text', type=str, required=True,
                             help='Text of the thought')
+
+authentication_parser = api_namespace.parser()
+authentication_parser.add_argument('Authorization', location='headers',
+                                   type=str,
+                                   help='Bearer Access Token')
 
 model = {
     'id': fields.Integer(),
@@ -35,8 +39,8 @@ model = {
 thought_model = api_namespace.model('Thought', model)
 
 
-@api_namespace.route('/thoughts/')
-class ThoughtListCreate(Resource):
+@api_namespace.route('/me/thoughts/')
+class MeThoughtListCreate(Resource):
 
     @api_namespace.doc('list_thoughts')
     @api_namespace.marshal_with(thought_model)
@@ -44,7 +48,14 @@ class ThoughtListCreate(Resource):
         '''
         Retrieves all the thoughts
         '''
-        thoughts = ThoughtModel.query.order_by('id').all()
+        args = authentication_parser.parse_args()
+        username = authentication_header_parser(args['Authorization'])
+
+        thoughts = (ThoughtModel
+                    .query
+                    .filter(ThoughtModel.username == username)
+                    .order_by('id')
+                    .all())
         return thoughts
 
     @api_namespace.doc('create_thought')
@@ -65,6 +76,19 @@ class ThoughtListCreate(Resource):
         result = api_namespace.marshal(new_thought, thought_model)
 
         return result, http.client.CREATED
+
+
+@api_namespace.route('/thoughts/')
+class ThoughtList(Resource):
+
+    @api_namespace.doc('list_thoughts')
+    @api_namespace.marshal_with(thought_model)
+    def get(self):
+        '''
+        Retrieves all the thoughts
+        '''
+        thoughts = ThoughtModel.query.order_by('id').all()
+        return thoughts
 
 
 @api_namespace.route('/thoughts/<int:thought_id>')

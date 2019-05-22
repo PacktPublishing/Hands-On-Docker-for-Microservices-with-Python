@@ -38,6 +38,12 @@ def test_invalid_token_header_bad_token():
     assert None is result
 
 
+def test_invalid_token_no_header():
+    header = None
+    result = token_validation.validate_token_header(header, PUBLIC_KEY)
+    assert None is result
+
+
 def test_invalid_token_header_not_expiry_time():
     payload = {
         'username': 'tonystark',
