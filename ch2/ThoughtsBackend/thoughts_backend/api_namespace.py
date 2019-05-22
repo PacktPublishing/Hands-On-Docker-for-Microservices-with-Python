@@ -101,7 +101,6 @@ class ThoughtList(Resource):
 
         query = query.order_by('id')
         thoughts = query.all()
-        print(thoughts)
 
         return thoughts
 
