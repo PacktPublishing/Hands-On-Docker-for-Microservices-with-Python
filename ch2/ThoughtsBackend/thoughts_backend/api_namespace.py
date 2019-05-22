@@ -18,17 +18,15 @@ def authentication_header_parser(value):
 
 
 # Input and output formats for Thought
-thought_parser = api_namespace.parser()
-thought_parser.add_argument('Authorization', location='headers',
-                            type=str,
-                            help='Bearer Access Token')
-thought_parser.add_argument('text', type=str, required=True,
-                            help='Text of the thought')
 
 authentication_parser = api_namespace.parser()
 authentication_parser.add_argument('Authorization', location='headers',
                                    type=str,
                                    help='Bearer Access Token')
+
+thought_parser = authentication_parser.copy()
+thought_parser.add_argument('text', type=str, required=True,
+                            help='Text of the thought')
 
 model = {
     'id': fields.Integer(),
