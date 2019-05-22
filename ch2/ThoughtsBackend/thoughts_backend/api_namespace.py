@@ -43,7 +43,8 @@ thought_model = api_namespace.model('Thought', model)
 class MeThoughtListCreate(Resource):
 
     @api_namespace.doc('list_thoughts')
-    @api_namespace.marshal_with(thought_model)
+    @api_namespace.expect(authentication_parser)
+    @api_namespace.marshal_with(thought_model, as_list=True)
     def get(self):
         '''
         Retrieves all the thoughts
@@ -60,6 +61,7 @@ class MeThoughtListCreate(Resource):
 
     @api_namespace.doc('create_thought')
     @api_namespace.expect(thought_parser)
+    @api_namespace.marshal_with(thought_model, code=http.client.CREATED)
     def post(self):
         '''
         Create a new thought
@@ -87,7 +89,7 @@ search_parser.add_argument('search', type=str, required=False,
 class ThoughtList(Resource):
 
     @api_namespace.doc('list_thoughts')
-    @api_namespace.marshal_with(thought_model)
+    @api_namespace.marshal_with(thought_model, as_list=True)
     @api_namespace.expect(search_parser)
     def get(self):
         '''
