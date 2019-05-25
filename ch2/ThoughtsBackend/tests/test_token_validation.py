@@ -1,7 +1,7 @@
 import delorean
 from freezegun import freeze_time
 from thoughts_backend import token_validation
-from .test_config import PRIVATE_KEY, PUBLIC_KEY
+from .constants import PRIVATE_KEY, PUBLIC_KEY
 
 
 INVALID_PUBLIC_KEY = '''

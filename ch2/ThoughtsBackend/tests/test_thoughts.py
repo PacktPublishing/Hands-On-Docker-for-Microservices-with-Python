@@ -7,7 +7,7 @@ Use the thought_fixture to have data to retrieve, it generates three thoughts
 from unittest.mock import ANY
 import http.client
 from freezegun import freeze_time
-from .test_config import PRIVATE_KEY
+from .constants import PRIVATE_KEY
 from thoughts_backend import token_validation
 from faker import Faker
 fake = Faker()
@@ -130,7 +130,7 @@ def test_list_thoughts_search(client, thought_fixture):
     assert http.client.OK == response.status_code
     assert len(result) > 0
 
-    # Check that the returned values contain "something"
+    # Check that the returned values contain "platypus"
     for thought in result:
         expected = {
             'text': ANY,

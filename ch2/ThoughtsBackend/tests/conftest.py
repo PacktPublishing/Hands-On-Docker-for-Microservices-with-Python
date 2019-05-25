@@ -1,7 +1,7 @@
 import pytest
 import http.client
 from thoughts_backend.app import create_app
-from .test_config import PRIVATE_KEY
+from .constants import PRIVATE_KEY
 from thoughts_backend import token_validation
 from faker import Faker
 fake = Faker()
