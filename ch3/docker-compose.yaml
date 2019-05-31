@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+    # Development related
+    test-sqlite:
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+        build:
+            dockerfile: Dockerfile.thoughts_backend
+            context: .
+        entrypoint: pytest
+        volumes:
+            - ./ThoughtsBackend:/opt/code
