@@ -40,14 +40,13 @@ services:
         ports:
             - "5432:5432"
 
- # Producion related
+    # Producion related
     server:
         env_file: environment.env
         image: thoughts_server
         build:
             context: .
             dockerfile: docker/app/Dockerfile
-            # command: /opt/server/start_server.sh
         ports:
             - "8000:8000"
         depends_on:
