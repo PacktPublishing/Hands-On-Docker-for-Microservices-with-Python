@@ -17,7 +17,7 @@ ENV POSTGRES_HOST localhost
 RUN apk update
 RUN apk add bash nano curl su-exec python3
 RUN apk add postgresql postgresql-contrib postgresql-dev
-RUN apk add python3-dev build-base linux-headers gcc
+RUN apk add python3-dev build-base linux-headers gcc libffi-dev
 
 ### Adding musl with locale support for Postgres
 
@@ -56,16 +56,17 @@ ADD ./docker/db/postgres-setup.sh /opt/code/db/
 RUN  /opt/code/db/postgres-setup.sh
 
 ## Install our code to prepare the DB
-#ADD requirements.txt /opt/code
-#
-#RUN pip3 install -r requirements.txt
-#
+ADD ./ThoughtsBackend/requirements.txt /opt/code
+
+RUN pip3 install -r requirements.txt
+
 ## Need to import all the code, due dependencies to initialise the DB
-#ADD ./src/ /opt/code/
-## Add all DB commanda
-#ADD ./docker/db/* /opt/code/db/
-#
+ENV DATABASE_ENGINE POSTGRESQL
+ADD ./ThoughtsBackend/ /opt/code/
+# Add all DB commanda
+ADD ./docker/db/* /opt/code/db/
+
 ## get the db ready
-#RUN /opt/code/db/prepare_db.sh
+RUN /opt/code/db/prepare_db.sh
 
 CMD ["su-exec",  "postgres", "postgres"]
