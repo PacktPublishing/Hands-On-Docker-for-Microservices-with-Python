@@ -13,14 +13,9 @@ services:
             - ./ThoughtsBackend:/opt/code
 
     test-postgresql:
+        env_file: environment.env
         environment:
             - PYTHONDONTWRITEBYTECODE=1
-            - DATABASE_ENGINE=POSTGRESQL
-            - POSTGRES_DB=locations
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=somepassword
-            - POSTGRES_PORT=5432
-            - POSTGRES_HOST=db
         build:
             dockerfile: docker/app/Dockerfile
             context: .
