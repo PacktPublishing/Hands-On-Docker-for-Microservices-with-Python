@@ -6,8 +6,38 @@ services:
         environment:
             - PYTHONDONTWRITEBYTECODE=1
         build:
-            dockerfile: Dockerfile.thoughts_backend
+            dockerfile: docker/app/Dockerfile
             context: .
         entrypoint: pytest
         volumes:
             - ./ThoughtsBackend:/opt/code
+
+    test-postgresql:
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+            - DATABASE_ENGINE=POSTGRESQL
+            - POSTGRES_DB=locations
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=somepassword
+            - POSTGRES_PORT=5432
+            - POSTGRES_HOST=db
+        build:
+            dockerfile: docker/app/Dockerfile
+            context: .
+        entrypoint: pytest
+        depends_on:
+            - db
+        volumes:
+            - ./ThoughtsBackend:/opt/code
+    db:
+        build:
+            context: .
+            dockerfile: ./docker/db/Dockerfile
+            args:
+                # These values should be in sync with environment
+                # for development. If you change them, you'll 
+                # need to rebuild the container
+                - POSTGRES_DB=locations
+                - POSTGRES_USER=postgres
+                - POSTGRES_PASSWORD=somepassword
+                - POSTGRES_PORT=5432
