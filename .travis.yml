@@ -1,0 +1,52 @@
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.23.2
+    - secure: "nMJWRO4d/N4CNXp8X0f/8zoecG2Eu+Hi23PPJnM5gkl2HigW2PAMRVBHi+CBWuCIWuiD5fONkY5ANxeq9Nh7/epN4YqwYabyBJ8sSgNvK4lFU1UVo9JYgXYbpktB/2dmBeq0JJ6LOeLWb5oDAuj74QwCUdywVrs/8SVYKcRRmqgI+C3afJekHzGQWhAtmRg00XLmMjd3/8Z0B6vtK2wF+5ar4+fozVbd2UUcaxkmR4la+nytj8ttKFfW12Rn5CHG8exYj4v3J3RB5NwUGUtwUO81/nMhWLLQrABbPdnOr+lYQ9lqroxMq+SMHxWxNHazM4uUypQbOMc6fmwB4FSR8NiPWkyt6tiyaiaXBPHYt7uK5uZzO7pZsFtf7+LZ8xCLQbWsTZDtrsRS2aJ7BdUxsnN3tpSy1h60VgTHBmLZGWrE5U905Fcx/iPWhagpLZ8Af0NL+O4TlmSP6WkaVpT/FaIMBz+kuvPm6Lvi2amDJj32plCzeFaEJ76npqc8jge4of/kuC0bgaLGmeOl9eAvm079gIaB3oB7/PODQQRzqG8wK+YT067qs+vMeGWFhO559jZRbYn0g64sJRWyDTF8Da1QgpdKyMEt0+0/oxOsw+1JWNPeLdHek8QOrHhfTNqp5aN1/djjY/LYP/Jr3dvArnBe+7oQlbbwC0W4cdGXQq8="
+    - secure: "W9RhT9mEi6qwSVaeralIHbuUUvLF8hyrgcPl/1oP2A4LCx1mHFSkCT5n6PZutXz6TPiKDfoTmRIH4fRXNCyw7R55pFUBISmRpSrQlJJObk8B0OX631R14w9UymqE1v9Z+hcXVhleWQJbkmaXReF8Ri6W5ghHmdnWGqpVYjo0Gj0ODgFQq+a/VS7fZNNMOPBhv+pab4SIwS3l3B0ByJ3yemKknPU3EJFAf+4mr6QDuqcoK470QJ5TEyj6eOFd0AlWj+3cd9tOb7pwqpeFYbWs24UBa+n6evCJn5XdXUKBq87kAqHPiI2iHdtqWqNzvFIhQ2TkGNvbP69Apf5BAhert3g43C+bZeOI1Z95d8fiRCRM6UrcxlhOVIO9tlrg+7ZBuFPKszxvg4LQhgyLyPnUMzOe5qox4gwMNfbtK7n5UkHLYmywTTAghPlh1heXzaa04wgkE7T7Ye+VgM4Bhe/YEu8S2wCvFpNPhQPtpu8hjRvqQn0XLmhnbK4DVb2UAHYvdwCQlhNfErVcT7+k1v8n4V7S6wiSdBSADga/rXmsJU192s74an9Y9BtMOWQbOVFp7T9E6LAIgtpF1Y1z5Gm8YpIi6EdSv+0U7I7xT8Qtq179PfI7HkilceZrXps5VO8ear+ZYsbMu4iuDOBB0wAJN6Ij/smkMHY1xq1ATfbGK4k="
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker --version
+  - docker-compose version
+  - echo "Login into Docker Hub"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - export GIT_SHA=`git rev-parse --short HEAD`
+  - echo "Building commit $GIT_SHA"
+
+jobs:
+  include:
+    - stage: tests
+      name: "Unit Tests"
+      script:
+      - cd ch4
+      - docker-compose build db
+      - docker-compose build test-postgresql
+      - docker-compose run test-postgresql
+    - stage: tests
+      name: "Static Analysis"
+      script:
+      - cd ch4
+      - docker-compose build static-analysis
+      - docker-compose run static-analysis
+    - stage: push
+      script:
+      - cd ch4
+      - docker-compose build server
+      - docker tag thoughts_server:latest jaimebuelta/thoughts-backend:$GIT_SHA
+      - docker push jaimebuelta/thoughts-backend:$GIT_SHA
+      - docker tag thoughts_server:latest jaimebuelta/thoughts-backend:$TRAVIS_BRANCH
+      deploy:
+      - provider: script
+        script: docker push jaimebuelta/thoughts-backend:$TRAVIS_BRANCH
+        on:
+          branch: master        
+      - provider: script
+        script: docker push jaimebuelta/thoughts-backend:$TRAVIS_TAG
+        on:
+          tags: True
