@@ -1,0 +1,6 @@
+FROM alpine
+
+RUN mkdir -p /opt/
+COPY example.txt /opt/example.txt
+
+CMD cat /opt/example.txt

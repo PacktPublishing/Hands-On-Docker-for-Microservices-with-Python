@@ -1,0 +1,8 @@
+FROM alpine
+
+RUN apk update
+# RUN apk version
+# RUN mkdir -p /opt/
+# COPY example.txt /opt/example.txt
+# 
+# CMD python3 -c "print('Hello container!')"
