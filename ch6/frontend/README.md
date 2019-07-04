@@ -1,41 +1,24 @@
 Monolith example
 =======
 
-This code is our example of Monolith. It is a Django application (https://www.djangoproject.com/) that creates a website for microblogging.
+This code is an evolution from the Monolith. It is a Django application (https://www.djangoproject.com/) that creates a website for microblogging. It connects to both the users backend and the thoughts backend.
 
 **THIS IS AN EXAMPLE WEBSITE**
 
 Set it up
 ------
 
-Create a virtual environment and install the requirements
+Use docker-compose to build the service
 
-    $ python3 -m venv ./venv
-    $ source ./venv/bin/activate
-    $ pip install -r requirements.txt
+    $ docker-compose build
+
+Configure the `environment.env` file to point to the users and thoughts backend. Use the
+IP on your local machine.
 
 
-Get the local database ready and load some initial data for testing
+Up the service
 
-    $ cd mythoughts/
-    $ python manage.py migrate
-    ...
-    $ python manage.py loaddata thoughts.json users.json
-    Installed 7 object(s) from 2 fixture(s)
-
-Start the development server
-
-    $ python manage.py runserver
-    Watching for file changes with StatReloader
-    Performing system checks...
-    
-    System check identified no issues (0 silenced).
-    ...
-    Django version 2.2.1, using settings 'mythoughts.settings'
-    Starting development server at http://127.0.0.1:8000/
-    Quit the server with CONTROL-C.
-
-Check the service at http://127.0.0.1:8000/
+    $ docker-compose up
 
 
 Test and login
