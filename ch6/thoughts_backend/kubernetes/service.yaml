@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    namespace: example
+    labels:
+        app: thoughts-backend
+    name: thoughts-backend
+spec:
+    ports:
+        - name: thoughts-backend
+          port: 80
+          targetPort: 8000
+    selector:
+        app: thoughts-backend
+    type: NodePort
