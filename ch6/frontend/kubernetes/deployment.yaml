@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend
+    labels:
+        app: frontend
+    namespace: example
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: frontend
+    template:
+        metadata:
+            labels:
+                app: frontend
+        spec:
+            containers:
+                - name: frontend-service
+                  image: thoughts_frontend:latest
+                  imagePullPolicy: Never
+                  ports:
+                     - containerPort: 8000
+                  env:
+                      - name: THOUGHTS_BACKEND_URL
+                        value: http://thoughts-service
+                      - name: USER_BACKEND_URL
+                        value: http://users-service
