@@ -4,8 +4,8 @@ kind: Service
 metadata:
     namespace: example
     labels:
-        app: thoughts-backend
-    name: thoughts-backend
+        app: thoughts-service
+    name: thoughts-service
 spec:
     ports:
         - name: thoughts-backend

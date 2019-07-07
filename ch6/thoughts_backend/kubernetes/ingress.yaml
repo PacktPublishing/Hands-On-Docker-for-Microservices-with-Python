@@ -10,6 +10,6 @@ spec:
           http:
             paths:
               - backend:
-                  serviceName: thoughts-backend
+                  serviceName: thoughts-service
                   servicePort: 80
                 path: /
