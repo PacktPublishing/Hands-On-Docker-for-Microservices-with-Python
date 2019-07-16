@@ -1,0 +1,32 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "frontendalb"
+  namespace: example
+  labels:
+    app: "fronendalb"
+  annotations:
+    # trigger the alb-ingress-controller
+    kubernetes.io/ingress.class: "alb"
+
+    # set ALB parameters
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "instance"
+    alb.ingress.kubernetes.io/security-groups: my-security-group-ids, ...
+    alb.ingress.kubernetes.io/subnets: my-vpc-subnets, ...
+    alb.ingress.kubernetes.io/certificate-arn: my-acm-certificate-arn
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+
+    # allow 404s on the health check
+    alb.ingress.kubernetes.io/healthcheck-path: "/"
+    alb.ingress.kubernetes.io/success-codes: "200,404"
+spec:
+  # forward all requests to nginx-ingress-controller
+  rules:
+  - http:
+      paths:
+      - path: "/*"
+        backend:
+          serviceName: frontend-service
+          servicePort: 80
