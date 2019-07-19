@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+
+    proxy:
+        ports:
+        - "8000:80"
+        - "8001:8001"
+        build:
+          context: .
+

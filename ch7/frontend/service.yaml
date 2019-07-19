@@ -13,4 +13,4 @@ spec:
           targetPort: 8000
     selector:
         app: frontend
-    type: NodePort
+    type: LoadBalancer
