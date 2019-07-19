@@ -7,7 +7,12 @@ metadata:
         app: frontend
     namespace: example
 spec:
-    replicas: 1
+    replicas: 4
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 25%
+        maxSurge: 1
     selector:
         matchLabels:
             app: frontend
@@ -27,3 +32,17 @@ spec:
                         value: http://thoughts-service
                       - name: USER_BACKEND_URL
                         value: http://users-service
+                  livenessProbe:
+                      exec:
+                        command:
+                        - curl
+                        - http://localhost:8000/
+                      initialDelaySeconds: 5
+                      periodSeconds: 30
+                  readinessProbe:
+                      exec:
+                        command:
+                        - curl
+                        - http://localhost:8000/
+                      initialDelaySeconds: 5
+                      periodSeconds: 10
