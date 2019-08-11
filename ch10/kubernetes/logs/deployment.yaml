@@ -33,11 +33,8 @@ spec:
             name: log-volume
       - name: fronttail
         args:
-        - --ui-highlight
         - /var/log/syslog
-        - -n
-        - "1000"
-        image: mthenw/frontail:4.5.1
+        image: mthenw/frontail:4.6.0
         imagePullPolicy: Always
         ports:
         - containerPort: 9001
