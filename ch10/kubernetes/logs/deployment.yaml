@@ -26,7 +26,7 @@ spec:
         image: rsyslog:latest
         imagePullPolicy: Never
         ports:
-          - containerPort: 514
+          - containerPort: 5140
             protocol: UDP
         volumeMounts:
           - mountPath: /var/log
