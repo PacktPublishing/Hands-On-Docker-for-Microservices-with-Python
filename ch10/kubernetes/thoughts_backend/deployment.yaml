@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: thoughts-backend
+    labels:
+        app: thoughts-backend
+    namespace: example
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: thoughts-backend
+    template:
+        metadata:
+            labels:
+                app: thoughts-backend
+        spec:
+            containers:
+                - name: thoughts-backend-service
+                  image: thoughts_server:latest
+                  imagePullPolicy: Never
+                  ports:
+                     - containerPort: 8000
+                  env:
+                      - name: DATABASE_ENGINE
+                        value: POSTGRESQL
+                      - name: POSTGRES_DB
+                        value: thoughts
+                      - name: POSTGRES_USER
+                        value: postgres
+                      - name: POSTGRES_PASSWORD
+                        value: somepassword
+                      - name: POSTGRES_PORT
+                        value: "5432"
+                      - name: POSTGRES_HOST
+                        value: "127.0.0.1"
+
+                - name: thoughts-backend-db
+                  image: thoughts_backend_db:latest
+                  imagePullPolicy: Never
+

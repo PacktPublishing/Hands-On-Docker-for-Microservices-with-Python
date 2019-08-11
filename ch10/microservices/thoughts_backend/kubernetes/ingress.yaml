@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: thoughts-backend-ingress
+    namespace: example
+spec:
+    rules:
+        - host: thoughts.example.local
+          http:
+            paths:
+              - backend:
+                  serviceName: thoughts-service
+                  servicePort: 80
+                path: /

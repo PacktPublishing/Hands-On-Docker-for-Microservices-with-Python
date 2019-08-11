@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    namespace: example
+    labels:
+        app: users-service
+    name: users-service
+spec:
+    ports:
+        - name: users-backend
+          port: 80
+          targetPort: 8000
+    selector:
+        app: users-backend
+    type: NodePort
