@@ -6,6 +6,7 @@ from thoughts_backend.models import ThoughtModel
 from thoughts_backend.token_validation import validate_token_header
 from thoughts_backend.db import db
 from flask import abort
+from flask import current_app as app
 
 api_namespace = Namespace('api', description='API operations')
 
@@ -98,6 +99,7 @@ class ThoughtList(Resource):
         query = ThoughtModel.query
         if search_param:
             param = f'%{search_param}%'
+            app.logger.info(f'Searching with params {param}')
             query = (query.filter(ThoughtModel.text.ilike(param)))
             # Old code, that it's not case insensitive in postgreSQL
             # query = (query.filter(ThoughtModel.text.contains(search_param)))

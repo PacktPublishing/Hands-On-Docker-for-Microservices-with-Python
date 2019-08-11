@@ -1,3 +1,4 @@
+import logging
 from flask import Flask
 from flask_restplus import Api
 
@@ -7,6 +8,9 @@ def create_app():
     from thoughts_backend.admin_namespace import admin_namespace
 
     application = Flask(__name__)
+    # Choose the logging level
+    application.logger.setLevel(logging.INFO)
+
     api = Api(application, version='0.1', title='Thoughts Backend API',
               description='A Simple CRUD API')
 

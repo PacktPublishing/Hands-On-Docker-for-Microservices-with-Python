@@ -11,14 +11,8 @@ spec:
   selector:
     matchLabels:
       app: syslog
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-    type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: syslog
     spec:
@@ -28,7 +22,7 @@ spec:
           - rsyslogd
           - -n
           - -f
-          - /etc/rsyslog.d/rri.conf
+          - /etc/rsyslog.d/rsyslog.conf
         image: rsyslog:latest
         imagePullPolicy: Never
         ports:
@@ -36,23 +30,7 @@ spec:
             protocol: UDP
           - containerPort: 514
             protocol: TCP
-
-        readinessProbe:
-          tcpSocket:
-            port: 514
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 514
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
         volumeMounts:
-          - mountPath: /etc/rsyslog.d
-            name: rsyslog-config
           - mountPath: /var/log
             name: log-volume
       - name: fronttail
@@ -79,12 +57,5 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       volumes:
-      - configMap:
-          defaultMode: 420
-          items:
-          - key: rsyslogd.conf
-            path: rri.conf
-          name: rsyslog-config-development
-        name: rsyslog-config
       - emptyDir: {}
         name: log-volume
