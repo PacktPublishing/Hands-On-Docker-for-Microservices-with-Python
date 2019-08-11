@@ -45,4 +45,4 @@ spec:
                         - curl
                         - http://localhost:8000/
                       initialDelaySeconds: 5
-                      periodSeconds: 10
+                      periodSeconds: 30
