@@ -15,10 +15,9 @@ spec:
   - name: syslog
     port: 5140
     protocol: UDP
-    targetPort: 514
+    targetPort: 5140
   selector:
     app: syslog
-  sessionAffinity: None
   type: ClusterIP
 status:
   loadBalancer: {}
