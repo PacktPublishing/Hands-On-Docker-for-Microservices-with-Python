@@ -56,6 +56,9 @@ class MeThoughtListCreate(Resource):
                     .filter(ThoughtModel.username == username)
                     .order_by('id')
                     .all())
+        num_thoughts = len(thoughts)
+        app.logger.info(f'Retrieved {num_thoughts} thoughts for '
+                        f'user {username}')
         return thoughts
 
     @api_namespace.doc('create_thought')
@@ -73,6 +76,8 @@ class MeThoughtListCreate(Resource):
                                    timestamp=datetime.utcnow())
         db.session.add(new_thought)
         db.session.commit()
+
+        raise Exception('Unexpected error!')
 
         result = api_namespace.marshal(new_thought, thought_model)
 

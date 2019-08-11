@@ -1,9 +1,7 @@
 import jwt
 from parse import parse
 from datetime import datetime, timedelta
-
-import logging
-logger = logging.getLogger(__name__)
+from flask import current_app as app
 
 
 def encode_token(payload, private_key):
@@ -36,34 +34,34 @@ def validate_token_header(header, public_key):
     returns None
     '''
     if not header:
-        logger.info('No header')
+        app.logger.info('No header')
         return None
 
     # Retrieve the Bearer token
     parse_result = parse('Bearer {}', header)
     if not parse_result:
-        logger.info(f'Wrong format for header "{header}"')
+        app.logger.info(f'Wrong format for header "{header}"')
         return None
     token = parse_result[0]
     try:
         decoded_token = decode_token(token.encode('utf8'), public_key)
     except jwt.exceptions.DecodeError:
-        logger.warning(f'Error decoding header "{header}". '
-                       'This may be key missmatch or wrong key')
+        app.logger.warning(f'Error decoding header "{header}". '
+                           'This may be key missmatch or wrong key')
         return None
     except jwt.exceptions.ExpiredSignatureError:
-        logger.error(f'Authentication header has expired')
+        app.logger.error(f'Authentication header has expired')
         return None
 
     # Check expiry is in the token
     if 'exp' not in decoded_token:
-        logger.warning('Token does not have expiry (exp)')
+        app.logger.warning('Token does not have expiry (exp)')
         return None
 
     # Check username is in the token
     if 'username' not in decoded_token:
-        logger.warning('Token does not have username')
+        app.logger.warning('Token does not have username')
         return None
 
-    logger.info('Header successfully validated')
+    app.logger.info('Header successfully validated')
     return decoded_token['username']
