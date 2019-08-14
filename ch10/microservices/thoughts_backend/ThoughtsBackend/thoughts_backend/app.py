@@ -14,7 +14,7 @@ metrics = PrometheusMetrics(app=None)
 
 METRIC_REQUESTS = Counter('requests', 'Requests',
                                   ['endpoint', 'method', 'status_code'])
-METRIC_REQ_TIME = Histogram('req_time', 'Req time',
+METRIC_REQ_TIME = Histogram('req_time', 'Req time in ms',
                             ['endpoint', 'method', 'status_code'])
 
 
