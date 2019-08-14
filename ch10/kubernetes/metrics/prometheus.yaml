@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: example
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus
+          volumeMounts:
+            - mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yaml
+              name: volume-config
+          ports:
+            - containerPort: 9090
+      volumes:
+        - name: volume-config
+          configMap:
+            name: prometheus-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: example
+data:
+  prometheus.yaml: |
+    scrape_configs:
+    - job_name: 'example'
+
+      static_configs:
+        - targets: ['thoughts-service', 'users-service', 'frontend-service']
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus-service
+  namespace: example
+spec:
+  selector:
+    app: prometheus
+  ports:
+    - name: prometheus
+      protocol: TCP
+      port: 80
+      targetPort: 9090
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  namespace: example
+spec:
+  rules:
+    - host: prometheus.example.local
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-service
+              servicePort: 80
+            path: /

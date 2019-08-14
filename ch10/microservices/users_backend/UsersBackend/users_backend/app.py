@@ -1,12 +1,20 @@
 from flask import Flask
 from flask_restplus import Api
 
+from prometheus_flask_exporter import PrometheusMetrics
+
+metrics = PrometheusMetrics(app=None)
+
 
 def create_app():
     from users_backend.api_namespace import api_namespace
     from users_backend.admin_namespace import admin_namespace
 
     application = Flask(__name__)
+
+    # Initialise metrics
+    metrics.init_app(application)
+
     api = Api(application, version='0.1', title='Users Backend API',
               description='A Simple CRUD API')
 

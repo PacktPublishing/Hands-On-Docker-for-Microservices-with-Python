@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: example
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources/prometheus.yaml
+              subPath: prometheus.yaml
+              name: volume-config
+          ports:
+            - containerPort: 3000
+      volumes:
+        - name: volume-config
+          configMap:
+            name: grafana-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: example
+data:
+  prometheus.yaml: |
+      apiVersion: 1
+
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-service
+        access: proxy
+        isDefault: true
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana-service
+  namespace: example
+spec:
+  selector:
+    app: grafana
+  ports:
+    - name: grafana
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: example
+spec:
+  rules:
+    - host: grafana.example.local
+      http:
+        paths:
+          - backend:
+              serviceName: grafana-service
+              servicePort: 80
+            path: /

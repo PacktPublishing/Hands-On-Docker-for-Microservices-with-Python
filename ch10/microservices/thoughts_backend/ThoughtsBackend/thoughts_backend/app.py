@@ -7,6 +7,16 @@ from flask_request_id_header.middleware import RequestID
 from logging.config import dictConfig
 from time import time
 
+from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Histogram, Counter
+
+metrics = PrometheusMetrics(app=None)
+
+METRIC_REQUESTS = Counter('requests', 'Requests',
+                                  ['endpoint', 'method', 'status_code'])
+METRIC_REQ_TIME = Histogram('req_time', 'Req time',
+                            ['endpoint', 'method', 'status_code'])
+
 
 class RequestFormatter(logging.Formatter):
     ''' Inject the HTTP_X_REQUEST_ID to format logs '''
@@ -42,29 +52,29 @@ dictConfig({
 
 
 def logging_before():
-    # Store the start time for the request
-    g.start_time = time()
     msg = 'REQUEST {REQUEST_METHOD} {REQUEST_URI}'.format(**request.environ)
     current_app.logger.info(msg)
+
+    # Store the start time for the request
+    g.start_time = time()
 
 
 def logging_after(response):
     # Get total time in milliseconds
     total_time = time() - g.start_time
     time_in_ms = int(total_time * 1000)
-
-    msg = f'RESPONSE STATUS {response.status_code.value}'
-    current_app.logger.info(msg)
-
     msg = f'RESPONSE TIME {time_in_ms} ms'
     current_app.logger.info(msg)
 
-    # Store metric
-    tags = [
-        'endpoint:{endpoint}'.format(endpoint=request.endpoint),
-        'request_method:{method}'.format(method=request.method.lower()),
-        'status_code:{status_code}'.format(status_code=response.status_code.value),
-    ]
+    msg = f'RESPONSE STATUS {response.status_code}'
+    current_app.logger.info(msg)
+
+    # Store metrics
+    endpoint = request.endpoint
+    method = request.method.lower()
+    status_code = response.status_code
+    METRIC_REQUESTS.labels(endpoint, method, status_code).inc()
+    METRIC_REQ_TIME.labels(endpoint, method, status_code).observe(time_in_ms)
 
     return response
 
@@ -80,6 +90,9 @@ def create_app(script=False):
     # Enable RequestId
     application.config['REQUEST_ID_UNIQUE_VALUE_PREFIX'] = ''
     RequestID(application)
+
+    # Initialise metrics
+    metrics.init_app(application)
 
     if not script:
         # For scripts, it should not connect to Syslog
