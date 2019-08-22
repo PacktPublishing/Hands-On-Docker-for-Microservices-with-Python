@@ -91,9 +91,6 @@ def create_app(script=False):
     application.config['REQUEST_ID_UNIQUE_VALUE_PREFIX'] = ''
     RequestID(application)
 
-    # Initialise metrics
-    metrics.init_app(application)
-
     if not script:
         # For scripts, it should not connect to Syslog
         handler = logging.handlers.SysLogHandler(('syslog', 5140))
@@ -104,6 +101,9 @@ def create_app(script=False):
         application.logger.addHandler(handler)
         # Do not propagate to avoid log duplication
         application.logger.propagate = False
+
+        # Initialise metrics
+        metrics.init_app(application)
 
     api = Api(application, version='0.1', title='Thoughts Backend API',
               description='A Simple CRUD API')

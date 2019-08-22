@@ -3,7 +3,7 @@ from users_backend.models import UserModel
 
 
 if __name__ == '__main__':
-    application = create_app()
+    application = create_app(script=True)
     application.app_context().push()
 
     # Create some test data
