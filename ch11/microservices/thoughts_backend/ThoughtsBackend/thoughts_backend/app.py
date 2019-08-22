@@ -18,7 +18,7 @@ METRIC_REQUESTS = Counter('requests', 'Requests',
 METRIC_REQ_TIME = Histogram('req_time', 'Req time in ms',
                             ['endpoint', 'method', 'status_code'])
 
-VERSION = os.environ.get('VERSION_NAME', 'BAD VERSION')
+VERSION = os.environ['VERSION_NAME']
 
 
 class RequestFormatter(logging.Formatter):
