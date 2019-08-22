@@ -4,7 +4,7 @@ from users_backend.app import create_app
 
 @pytest.fixture
 def app():
-    application = create_app()
+    application = create_app(script=True)
 
     application.app_context().push()
     # Initialise the DB

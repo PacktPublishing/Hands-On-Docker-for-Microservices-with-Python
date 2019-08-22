@@ -18,7 +18,8 @@ METRIC_REQUESTS = Counter('requests', 'Requests',
 METRIC_REQ_TIME = Histogram('req_time', 'Req time in ms',
                             ['endpoint', 'method', 'status_code'])
 
-VERSION = os.environ['VERSION_NAME']
+VERSION = os.environ.get('VERSION_NAME', 'BAD VERSION')
+
 
 class RequestFormatter(logging.Formatter):
     ''' Inject the HTTP_X_REQUEST_ID to format logs '''
