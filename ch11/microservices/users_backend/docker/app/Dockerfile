@@ -50,6 +50,12 @@ COPY --chown=uwsgi:uwsgi --from=compile-image /opt/venv /opt/venv
 # Be sure to activate the venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# Prepare the version
+ARG VERSION_SHA="BAD VERSION"
+ARG VERSION_NAME="BAD VERSION"
+ENV VERSION_SHA $VERSION_SHA
+ENV VERSION_NAME $VERSION_NAME
+
 # Copy the code
 COPY --chown=uwsgi:uwsgi UsersBackend/ /opt/code/
 

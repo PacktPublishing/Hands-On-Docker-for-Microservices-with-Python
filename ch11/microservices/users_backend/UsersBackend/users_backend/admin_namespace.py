@@ -1,3 +1,4 @@
+import os
 import http.client
 from flask_restplus import Namespace, Resource, fields
 from datetime import datetime
@@ -43,3 +44,19 @@ class UserCreate(Resource):
         result = admin_namespace.marshal(new_user, user_model)
 
         return result, http.client.CREATED
+
+
+@admin_namespace.route('/version/')
+class Version(Resource):
+
+    @admin_namespace.doc('get_version')
+    def get(self):
+        '''
+        Return the version of the application
+        '''
+        data = {
+            'commit': os.environ['VERSION_SHA'],
+            'version': os.environ['VERSION_NAME'],
+        }
+
+        return data

@@ -1,3 +1,4 @@
+import os
 import logging
 from flask import Flask, request, has_request_context
 from flask import current_app, g
@@ -17,6 +18,7 @@ METRIC_REQUESTS = Counter('requests', 'Requests',
 METRIC_REQ_TIME = Histogram('req_time', 'Req time in ms',
                             ['endpoint', 'method', 'status_code'])
 
+VERSION = os.environ['VERSION_NAME']
 
 class RequestFormatter(logging.Formatter):
     ''' Inject the HTTP_X_REQUEST_ID to format logs '''
@@ -105,7 +107,7 @@ def create_app(script=False):
         # Do not propagate to avoid log duplication
         application.logger.propagate = False
 
-    api = Api(application, version='0.1', title='Thoughts Backend API',
+    api = Api(application, version=VERSION, title='Thoughts Backend API',
               description='A Simple CRUD API')
 
     from thoughts_backend.db import db, db_config

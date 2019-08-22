@@ -1,9 +1,12 @@
+import os
 from flask import Flask
 from flask_restplus import Api
 
 from prometheus_flask_exporter import PrometheusMetrics
 
 metrics = PrometheusMetrics(app=None)
+
+VERSION = os.environ.get('VERSION_NAME', 'BAD VERSION')
 
 
 def create_app():
@@ -15,7 +18,7 @@ def create_app():
     # Initialise metrics
     metrics.init_app(application)
 
-    api = Api(application, version='0.1', title='Users Backend API',
+    api = Api(application, version=VERSION, title='Users Backend API',
               description='A Simple CRUD API')
 
     from users_backend.db import db, db_config
