@@ -77,8 +77,6 @@ class MeThoughtListCreate(Resource):
         db.session.add(new_thought)
         db.session.commit()
 
-        raise Exception('Unexpected error!')
-
         result = api_namespace.marshal(new_thought, thought_model)
 
         return result, http.client.CREATED
