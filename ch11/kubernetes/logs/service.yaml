@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: example
+  labels:
+    app: syslog
+  name: syslog
+spec:
+  ports:
+  - name: fronttail
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
+  - name: syslog
+    port: 5140
+    protocol: UDP
+    targetPort: 5140
+  selector:
+    app: syslog
+  type: ClusterIP

@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: syslog-ingress
+  namespace: example
+spec:
+  rules:
+  - host: syslog.example.local
+    http:
+      paths:
+      - backend:
+          serviceName: syslog
+          servicePort: 9001
+        path: /

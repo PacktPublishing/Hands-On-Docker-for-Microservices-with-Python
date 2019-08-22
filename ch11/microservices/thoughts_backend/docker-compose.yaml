@@ -1,0 +1,86 @@
+version: '3.7'
+
+services:
+    # Development related
+    test-sqlite:
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+        build:
+            dockerfile: docker/app/Dockerfile
+            context: .
+        entrypoint: pytest
+        volumes:
+            - ./ThoughtsBackend:/opt/code
+
+    test-postgresql:
+        env_file: environment.env
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+        build:
+            dockerfile: docker/app/Dockerfile
+            context: .
+        entrypoint: pytest
+        depends_on:
+            - db
+        volumes:
+            - ./ThoughtsBackend:/opt/code
+
+    # Pipeline actions
+    test:
+        env_file: environment.env
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+        build:
+            dockerfile: docker/app/Dockerfile
+            context: .
+        entrypoint: pytest
+        depends_on:
+            - db
+
+    static-analysis:
+        build:
+            dockerfile: docker/app/Dockerfile
+            context: .
+        entrypoint: flake8
+
+    db:
+        build:
+            context: .
+            dockerfile: ./docker/db/Dockerfile
+            args:
+                # These values should be in sync with environment
+                # for development. If you change them, you'll 
+                # need to rebuild the container
+                - POSTGRES_DB=thoughts
+                - POSTGRES_USER=postgres
+                - POSTGRES_PASSWORD=somepassword
+                - POSTGRES_PORT=5432
+
+    # Producion related
+    # Note that db-debug is the same as db, but it exposes locally
+    # port 5432 to access PostgreSQL
+    db-debug:
+        build:
+            context: .
+            dockerfile: ./docker/db/Dockerfile
+            args:
+                # These values should be in sync with environment
+                # for development. If you change them, you'll 
+                # need to rebuild the container
+                - POSTGRES_DB=thoughts
+                - POSTGRES_USER=postgres
+                - POSTGRES_PASSWORD=somepassword
+                - POSTGRES_PORT=5432
+        ports:
+            - "5432:5432"
+
+    server:
+        env_file: environment.env
+        image: thoughts_server
+        build:
+            context: .
+            dockerfile: docker/app/Dockerfile
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db

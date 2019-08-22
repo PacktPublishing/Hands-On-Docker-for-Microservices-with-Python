@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+  namespace: example
+  name: syslog
+  labels:
+    app: syslog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syslog
+  template:
+    metadata:
+      labels:
+        app: syslog
+    spec:
+      containers:
+      - name: syslog
+        command:
+          - rsyslogd
+          - -n
+          - -f
+          - /etc/rsyslog.d/rsyslog.conf
+        image: rsyslog:latest
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 5140
+            protocol: UDP
+        volumeMounts:
+          - mountPath: /var/log
+            name: log-volume
+      - name: fronttail
+        args:
+        - /var/log/syslog
+        image: mthenw/frontail:4.6.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9001
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/log
+          name: log-volume
+      volumes:
+      - emptyDir: {}
+        name: log-volume

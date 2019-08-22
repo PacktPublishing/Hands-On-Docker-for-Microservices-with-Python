@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for thought in thoughts %}
+<div class="card border-dark mt-2">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2">
+      {{thought.username}} 
+      <small class="text-muted">{{thought.timestamp}}</small>
+    </h6>
+    <p class="card-text">{{thought.text}}</p>
+  </div>
+</div>
+{% empty %}
+No results for your search
+{% endfor %}
+
+
+{% endblock %}
