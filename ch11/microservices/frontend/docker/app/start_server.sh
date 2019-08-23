@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 _term() {
   echo "Caught SIGTERM signal! Sending graceful stop to uWSGI through the master-fifo"
@@ -9,6 +10,8 @@ _term() {
 }
 
 trap _term SIGTERM
+
+python3 /opt/uwsgi/check_dependencies_services.py
 
 uwsgi --ini /opt/uwsgi/uwsgi.ini &
 

@@ -39,6 +39,7 @@ RUN apk add --update python3 curl libffi postgresql-libs
 RUN mkdir -p /opt/uwsgi
 ADD docker/app/uwsgi.ini /opt/uwsgi/
 ADD docker/app/start_server.sh /opt/uwsgi/
+ADD docker/app/check_dependencies_services.py /opt/uwsgi/
 
 # Create a user to run the service
 RUN addgroup -S uwsgi
