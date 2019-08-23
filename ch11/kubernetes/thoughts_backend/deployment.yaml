@@ -18,10 +18,10 @@ spec:
         spec:
             containers:
                 - name: thoughts-backend-service
-                  image: thoughts_server:latest
+                  image: thoughts_server:v1.5
                   imagePullPolicy: Never
                   ports:
-                     - containerPort: 8000
+                      - containerPort: 8000
                   env:
                       - name: DATABASE_ENGINE
                         value: POSTGRESQL
@@ -39,4 +39,3 @@ spec:
                 - name: thoughts-backend-db
                   image: thoughts_backend_db:latest
                   imagePullPolicy: Never
-

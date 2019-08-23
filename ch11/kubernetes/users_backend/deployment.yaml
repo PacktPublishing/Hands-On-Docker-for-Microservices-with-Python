@@ -18,7 +18,7 @@ spec:
         spec:
             containers:
                 - name: users-backend-service
-                  image: users_server:latest
+                  image: users_server:v2.3
                   imagePullPolicy: Never
                   ports:
                      - containerPort: 8000
