@@ -23,7 +23,7 @@ spec:
         spec:
             containers:
                 - name: frontend-service
-                  image: thoughts_frontend:latest
+                  image: thoughts_frontend:v3.7
                   imagePullPolicy: Never
                   ports:
                      - containerPort: 8000
