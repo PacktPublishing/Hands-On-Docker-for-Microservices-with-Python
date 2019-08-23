@@ -4,8 +4,8 @@ from natsort import natsorted
 
 
 VERSIONS = {
-    'thoughts_backend': (f'{os.environ["USER_BACKEND_URL"]}/admin/version/',
-                         'v2.4'),
+    'thoughts_backend': (f'{os.environ["THOUGHTS_BACKEND_URL"]}/admin/version',
+                         'v1.6'),
 }
 
 
