@@ -21,7 +21,7 @@ spec:
                   image: users_server:v2.3
                   imagePullPolicy: Never
                   ports:
-                     - containerPort: 8000
+                      - containerPort: 8000
                   env:
                       - name: DATABASE_ENGINE
                         value: POSTGRESQL
@@ -29,13 +29,29 @@ spec:
                         value: thoughts
                       - name: POSTGRES_USER
                         value: postgres
-                      - name: POSTGRES_PASSWORD
-                        value: somepassword
                       - name: POSTGRES_PORT
                         value: "5432"
                       - name: POSTGRES_HOST
                         value: "127.0.0.1"
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: thoughts-secrets
+                                key: postgres-password
+                  volumeMounts:
+                      - name: sign-keys
+                        mountPath: "/opt/keys/"
 
                 - name: users-backend-db
                   image: users_backend_db:latest
                   imagePullPolicy: Never
+
+            volumes:
+                - name: sign-keys
+                  secret:
+                      secretName: thoughts-secrets
+                      items:
+                          - key: public_key.pub
+                            path: public_key.pub
+                          - key: private_key.pem
+                            path: private_key.pem

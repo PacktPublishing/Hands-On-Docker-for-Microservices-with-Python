@@ -29,13 +29,27 @@ spec:
                         value: thoughts
                       - name: POSTGRES_USER
                         value: postgres
-                      - name: POSTGRES_PASSWORD
-                        value: somepassword
                       - name: POSTGRES_PORT
                         value: "5432"
                       - name: POSTGRES_HOST
                         value: "127.0.0.1"
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: thoughts-secrets
+                                key: postgres-password
+                  volumeMounts:
+                      - name: public-key
+                        mountPath: "/opt/keys/"
+
 
                 - name: thoughts-backend-db
                   image: thoughts_backend_db:latest
                   imagePullPolicy: Never
+            volumes:
+                - name: public-key
+                  secret:
+                      secretName: thoughts-secrets
+                      items:
+                          - key: public_key.pub
+                            path: public_key.pub
