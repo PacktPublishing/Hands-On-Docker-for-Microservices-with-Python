@@ -22,17 +22,12 @@ spec:
                   imagePullPolicy: Never
                   ports:
                       - containerPort: 8000
+                  envFrom:
+                      - configMapRef:
+                            name: shared-config
                   env:
-                      - name: DATABASE_ENGINE
-                        value: POSTGRESQL
                       - name: POSTGRES_DB
                         value: thoughts
-                      - name: POSTGRES_USER
-                        value: postgres
-                      - name: POSTGRES_PORT
-                        value: "5432"
-                      - name: POSTGRES_HOST
-                        value: "127.0.0.1"
                       - name: POSTGRES_PASSWORD
                         valueFrom:
                             secretKeyRef:
