@@ -5,8 +5,9 @@ metadata:
   name: shared-config
   namespace: example
 data:
+  DATABASE_ENGINE: POSTGRES
   POSTGRES_USER: postgres
-  POSTGRES_PORT: "5432"
   POSTGRES_HOST: "127.0.0.1"
+  POSTGRES_PORT: "5432"
   THOUGHTS_BACKEND_URL: http://thoughts-service
   USER_BACKEND_URL: http://users-service
