@@ -5,7 +5,7 @@ metadata:
   name: shared-config
   namespace: example
 data:
-  DATABASE_ENGINE: POSTGRES
+  DATABASE_ENGINE: POSTGRESQL
   POSTGRES_USER: postgres
   POSTGRES_HOST: "127.0.0.1"
   POSTGRES_PORT: "5432"
