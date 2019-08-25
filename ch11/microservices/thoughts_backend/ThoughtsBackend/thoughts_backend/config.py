@@ -1,3 +1,5 @@
+import os
+
 PRIVATE_KEY = '''
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAxF2uf9o4z4Wsg1sMHQeNlSNoz09CV6psTgKOuUH5jyzzqP/D
@@ -38,3 +40,9 @@ iKUI0u2y+aro9HRMqtNSASPxxDbcsadEhYqVB+7ak3X9qpTLM/dGy9vb8ZuizbwZ
 KwIDAQAB
 -----END PUBLIC KEY-----
 '''
+
+PUBLIC_KEY_PATH = '/opt/keys/public_key.pub'
+
+if os.path.isfile(PUBLIC_KEY_PATH):
+    with open(PUBLIC_KEY_PATH) as fp:
+        PUBLIC_KEY = fp.read()

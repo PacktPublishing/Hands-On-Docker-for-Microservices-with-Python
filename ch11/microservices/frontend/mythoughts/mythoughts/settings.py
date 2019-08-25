@@ -136,3 +136,9 @@ iKUI0u2y+aro9HRMqtNSASPxxDbcsadEhYqVB+7ak3X9qpTLM/dGy9vb8ZuizbwZ
 KwIDAQAB
 -----END PUBLIC KEY-----
 '''
+
+PUBLIC_KEY_PATH = '/opt/keys/public_key.pub'
+
+if os.path.isfile(PUBLIC_KEY_PATH):
+    with open(PUBLIC_KEY_PATH) as fp:
+        TOKENS_PUBLIC_KEY = fp.read()
