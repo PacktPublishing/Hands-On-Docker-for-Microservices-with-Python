@@ -1,8 +1,15 @@
 import requests
+import math
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .thoughts import get_username_from_session
+
+
+def load(request):
+    # Create a slow call
+    math.factorial(50000)
+    return redirect('index')
 
 
 def search(request):

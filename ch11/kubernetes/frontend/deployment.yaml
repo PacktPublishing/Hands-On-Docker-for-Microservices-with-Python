@@ -49,8 +49,8 @@ spec:
                       periodSeconds: 30
             volumes:
                 - name: public-key
-                  secret:
-                      secretName: thoughts-secrets
+                  configMap:
+                      name: shared-config
                       items:
                           - key: public_key.pub
                             path: public_key.pub
