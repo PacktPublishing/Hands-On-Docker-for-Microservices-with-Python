@@ -1,4 +1,6 @@
-For this chapter, there is an adaptation of the ThoughtsBackend project found in chapter2
+Chapter 4
+=======
 
-The subdirectory `dockerfile_examples` contains the rest of Dockerfile examples
-The directory `docker` contains the required docker related files, including the Dockerfiles for the application.
+For this chapter, there is an adaptation of the dockerized ThoughtsBackend project found in ch3
+
+It adds pipeline actions to the docker-compose.yaml files.
