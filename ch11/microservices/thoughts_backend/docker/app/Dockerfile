@@ -31,9 +31,6 @@ RUN pip3 install -r /opt/requirements.txt
 ########
 FROM alpine:3.9 AS runtime-image
 
-
-RUN mkdir -p /opt/code
-
 # Install python
 RUN apk add --update python3 curl libffi postgresql-libs
 # Copy uWSGI configuration
