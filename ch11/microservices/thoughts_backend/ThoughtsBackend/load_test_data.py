@@ -10,7 +10,8 @@ if __name__ == '__main__':
     test_data = [
         # username, timestamp, text
         ('bruce', "1962-05-11 09:53:41Z",
-         "A few seconds more and we'll know wether we have succeeded or not!"),
+         "A few seconds more and we'll know whether we have"
+         " succeeded or not!"),
         ('bruce', "1962-05-11 09:58:23Z",
          "And now, if you'll excuse me, it's time for the final countdown"),
         ('bruce', "1962-05-11 10:07:13Z",

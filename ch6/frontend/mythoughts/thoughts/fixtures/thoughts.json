@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "username": "bruce",
-      "text": "A few seconds more and we'll know wether we have succeeded or not!",
+      "text": "A few seconds more and we'll know whether we have succeeded or not!",
       "timestamp": "1962-05-11 09:53:41Z"
     }
   },
