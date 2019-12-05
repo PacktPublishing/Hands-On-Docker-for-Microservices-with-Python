@@ -51,7 +51,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 ### Related products
 * Hands-On Microservices with Kubernetes  [[Packt]](https://www.packtpub.com/virtualization-and-cloud/hands-microservices-kubernetes?utm_source=github&utm_medium=repository&utm_campaign=9781789805468) [[Amazon]](https://www.amazon.com/dp/1789805465)
 
-* Expert Python Programming - Third Edition  [[Packt]](https://www.packtpub.com/application-development/expert-python-programming-third-edition?utm_source=github&utm_medium=repository&utm_campaign=9781789808896) [[Amazon]](https://www.amazon.com/dp/1785886851)
+* Expert Python Programming - Third Edition  [[Packt]](https://www.packtpub.com/application-development/expert-python-programming-third-edition?utm_source=github&utm_medium=repository&utm_campaign=9781789808896) [[Amazon]](https://www.amazon.com/dp/1789808898)
 
 ## Get to Know the Author
 **Jaime Buelta**
