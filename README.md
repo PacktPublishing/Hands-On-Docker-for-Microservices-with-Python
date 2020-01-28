@@ -44,6 +44,25 @@ With the following software and hardware list you can run all code files present
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781838823818_ColorImages.pdf).
 
+## Errata
+* Page 7 (Paragraph 2, Line 1): **Chapter 1, Making the Move – Design, Plan, Execute, describes a typical situation for a monolith system…** _should be_ **Chapter 1, Making the Move – Design, Plan, and Execute, describes a typical situation for a monolith system…** 
+* Page 10 (Paragraph 4, Line 1): **a frontend web server that exposes the port in HTTP/HTTPS, and a backend that runs the monolith code in a dedicated web worker.** _should be_ **a frontend web server that exposes the port in HTTP/HTTPS and a backend one that runs the monolith code in a dedicated web worker.**
+* Page 40 (Paragraph 2, Line 2): **API interface** _should be_ **API**
+* Page 41 (Paragraph 3, Line 2): **We will discuss different elements such as the API design, the database schema that supports it, and how to implement and how to implement the microservice.** _should be_ **We will discuss different elements such as the API design, the database schema that supports it, and how to implement the microservice.**
+* Page 42 (Paragraph 1, Line 3): **Installation and running instructions can be found on its README.md file.** _should be_ **Installation and running instructions can be found in the README.md file.**
+* Page 42 (Paragraph 3, Line 1): **The diagram shows the different elements for our example system…** _should be_ **The diagram shows the different elements in our example system…**
+* Page 42 (Paragraph 4, Line 1): **Thoughts Backend will be responsible for storing new thoughts…** _should be_ **Thoughts Backend is responsible for storing new thoughts…**
+* Page 43 (Paragraph 1, Line 4): **logged user** _should be_ **logged in user**
+* Page 43 (Paragraph 2, Line 1): **Note the fact that the user is logged also validates the fact that the user exists.** _should be_ **The fact that the user is logged in also validates their existence.**
+* Page 43 (Paragraph 4, Line 2): **The JWT itself is encrypted, but the information contained here is mostly only relevant for checking the user that was logged.** _should be_ **The JWT itself is encrypted, but the information contained here is mostly only relevant for checking the user who was logged in.**
+* Page 43 (Last paragraph, Line 2): **API interface** _should be_ **API**
+* Page 45 (Paragraph 1, Line 1): **API interface** _should be_ **API**
+* Page 45 (Line 7): **Any user, even not authenticated, can perform these actions.** _should be_ **Any user, even non-authenticated ones, can perform these actions.**
+* Page 47 (Paragraph 1, Line 2): **There are two approaches to dealing with databases…** _should be_ **There are two approaches to deal with databases…**
+* Page 47 (Last paragraph, Line 7): **A well-tailored SQLAlchemy definition can perform some abstract tasks very efficiently, but it requires good knowledge of the tool.** _should be_ **A well-tailored SQLAlchemy definition can perform some abstract tasks very efficiently, but you need to possess good knowledge of the tool.**
+* Page 67 (Paragraph 1, Line 1): **API interface** _should be_ **API**
+* Page 274 (Paragraph 4, Line 1): **logged user** _should be_ **logged in user**
+
 ### Related products
 * Hands-On Microservices with Kubernetes  [[Packt]](https://www.packtpub.com/virtualization-and-cloud/hands-microservices-kubernetes?utm_source=github&utm_medium=repository&utm_campaign=9781789805468) [[Amazon]](https://www.amazon.com/dp/1789805465)
 
