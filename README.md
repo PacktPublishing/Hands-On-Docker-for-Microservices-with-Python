@@ -47,6 +47,9 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 ## Errata
 * Page 7 (Paragraph 2, Line 1): **Chapter 1, Making the Move – Design, Plan, Execute, describes a typical situation for a monolith system…** _should be_ **Chapter 1, Making the Move – Design, Plan, and Execute, describes a typical situation for a monolith system…** 
 * Page 10 (Paragraph 4, Line 1): **a frontend web server that exposes the port in HTTP/HTTPS, and a backend that runs the monolith code in a dedicated web worker.** _should be_ **a frontend web server that exposes the port in HTTP/HTTPS and a backend one that runs the monolith code in a dedicated web worker.**
+* Page 11 (Paragraph 2, Line 1): **Each individual deployed web worker will...** _should be_ **Each individually deployed web worker will...**
+* Page 11 (Paragraph 6, Line 1): **As the service is a whole, any...** _should be_ **For the service is a whole, any...**
+* Page 13 (Paragraph 6, Line 2): **...problem, but limiting its use so that it is contained, not requiring a drastic change in the company.** _should be_ **...problem. However, this technique's use should be restricted so that it is contained and does not require a drastic change in the company.**
 * Page 40 (Paragraph 2, Line 2): **API interface** _should be_ **API**
 * Page 41 (Paragraph 3, Line 2): **We will discuss different elements such as the API design, the database schema that supports it, and how to implement and how to implement the microservice.** _should be_ **We will discuss different elements such as the API design, the database schema that supports it, and how to implement the microservice.**
 * Page 42 (Paragraph 1, Line 3): **Installation and running instructions can be found on its README.md file.** _should be_ **Installation and running instructions can be found in the README.md file.**
@@ -56,6 +59,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 * Page 43 (Paragraph 2, Line 1): **Note the fact that the user is logged also validates the fact that the user exists.** _should be_ **The fact that the user is logged in also validates their existence.**
 * Page 43 (Paragraph 4, Line 2): **The JWT itself is encrypted, but the information contained here is mostly only relevant for checking the user that was logged.** _should be_ **The JWT itself is encrypted, but the information contained here is mostly only relevant for checking the user who was logged in.**
 * Page 43 (Last paragraph, Line 2): **API interface** _should be_ **API**
+* Page 44 (Paragraph 3, Line 3): **at the client** _should be_ **at the client side**
 * Page 45 (Paragraph 1, Line 1): **API interface** _should be_ **API**
 * Page 45 (Line 7): **Any user, even not authenticated, can perform these actions.** _should be_ **Any user, even non-authenticated ones, can perform these actions.**
 * Page 47 (Paragraph 1, Line 2): **There are two approaches to dealing with databases…** _should be_ **There are two approaches to deal with databases…**
