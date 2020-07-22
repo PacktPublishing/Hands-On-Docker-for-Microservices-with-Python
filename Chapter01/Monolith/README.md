@@ -20,7 +20,7 @@ Get the local database ready and load some initial data for testing
     $ cd mythoughts/
     $ python manage.py migrate
     ...
-    $ python manage.py loaddata thoughts.json users.json
+    $ python manage.py loaddata thoughts/fixtures/thoughts.json thoughts/fixtures/users.json
     Installed 7 object(s) from 2 fixture(s)
 
 Start the development server
