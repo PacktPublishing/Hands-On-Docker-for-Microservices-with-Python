@@ -19,7 +19,7 @@ Get the local database ready
 
     $ python init_db.py
 
-Start the development server
+Start the development server (in Unix)
 
     $ FLASK_APP=wsgi.py flask run
     * Serving Flask app "wsgi.py"
@@ -31,6 +31,18 @@ Start the development server
 
 Check the service at http://127.0.0.1:5000/
 
+
+Start the development server (in Windows Powershell)
+
+    $ set FLASK_APP=wsgi.py
+    $ FLASK_APP=wsgi.py flask run
+    * Serving Flask app "wsgi.py"
+    * Environment: production
+      WARNING: Do not use the development server in a production environment.
+      Use a production WSGI server instead.
+    * Debug mode: off
+    * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)    
+    
 
 Tests
 ------
